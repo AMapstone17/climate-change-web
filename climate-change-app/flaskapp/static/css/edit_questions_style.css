@@ -1,0 +1,171 @@
+.FormBox {
+
+    width: 150vh;
+    height: 78vh;
+    border-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.8);
+    padding-left: 1vh;
+}
+
+.title {
+    font-family: sans-serif;
+    font-size: 6vh;
+    color: white;
+    margin-top: 1vh;
+    margin-left: 1vh;
+}
+
+.display-title {
+    margin-top: 1vh;
+    text-align: center;
+    font-size: 4vh;
+    font-family: sans-serif;
+}
+
+hr {
+    border-color: #E6E6E6;
+    color: #E6E6E6;
+    background: #E6E6E6;
+    width: 97%;
+}
+
+.input-field {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+    width: 60%;
+    height: 5vh;
+    position: relative;
+    align-items: center;
+    font-size: 14px;
+}
+
+.input {
+    width: 99%;
+    height: 3vh;
+    position: relative;
+    background: none;
+    border: none;
+    /*border-color:gray ;*/
+    /*margin-bottom: 20px;*/
+    color: black;
+    /*margin-: 24.41px;*/
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray */
+}
+
+tr:nth-child(odd) {
+    background-color: #bdbdbd; /* Light gray */
+}
+
+.updateButton {
+    margin-right: auto;
+    margin-left: auto;
+    width: 15vw;
+    height: 5vh;
+    background: #0984E3;
+    box-shadow: 0px 5px 15px rgba(37, 44, 97, 0.15);
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 2vh;
+}
+
+.updateButton:hover {
+    cursor: pointer;
+}
+
+.button-inner {
+    background: #0984E3;
+    font-size: 2vh;
+    font-family: sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.main-content-display {
+    /*margin-top: 5vh;*/
+    overflow: auto;
+    height: 53vh;
+    width: 97%;
+    margin: auto;
+}
+
+.table {
+    margin-left: auto;
+    margin-right: auto;
+    /*align-items: center;*/
+    width: 100%;
+
+}
+
+.table th {
+    text-align: left;
+    background-color: #838383;
+    position: sticky;
+    position: -webkit-sticky; /* For Safari */
+    top: 0px;
+    z-index: 2;
+    font-family: sans-serif;
+}
+
+.table td {
+    font-size: 1.7vh;
+}
+
+.add-btn {
+    background-image: url('../../static/add.png');
+    background-position: left;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    font-size: 1.7vh;
+    text-align: right;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.add-btn:hover {
+    background-color: #6F6F6F;
+}
+
+.edit-btn {
+    background-image: url('../../static/edit.png');
+    background-position: left;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    text-align: right;
+    width: 45%;
+    font-size: 1.7vh;
+    border-radius: 10px;
+}
+
+.edit-btn:hover {
+    background-color: #6F6F6F;
+}
+
+.del-btn {
+    background-image: url('../../static/delete.png');
+    background-position: left;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    text-align: right;
+    width: 51%;
+    font-size: 1.7vh;
+    border-radius: 10px;
+}
+
+.del-btn:hover {
+    background-color: #6F6F6F;
+}

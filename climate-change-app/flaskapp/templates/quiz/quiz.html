@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/quiz_style.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="QuizBg">
+        <h1 class="QuizTitle">Quiz</h1>
+        <div class="QuizBox">
+            <h2>Welcome To Quiz, {{ name }}</h2>
+
+            <a class="Button" href="/quiz-start">
+                Play Quiz
+            </a>
+            {% if admin %}
+                <a class="Link" href="/admin/edit_questions">
+                    Edit Questions
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

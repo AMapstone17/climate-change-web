@@ -1,0 +1,58 @@
+
+.title {
+    z-index: 2;
+    position: absolute;
+    top: 1.4em;
+    left: 55px;
+    color: white;
+    font-size: 10vh;
+    font-family: sans-serif;
+
+    font-weight: 700;
+    /*line-height: 96px;*/
+}
+
+.description {
+    z-index: 2;
+    position: absolute;
+    top: 24em;
+    left: 55px;
+    color: white;
+    font-size: 2.15vh;
+    font-family: sans-serif;
+    /*font-weight: 500;*/
+    /*line-height: 19px;*/
+    width: 35%;
+}
+
+.buttons {
+    z-index: 2; /* This will put the overlay on top of everything */
+    position: absolute;
+    top: 70vh;
+    left: 58px;
+
+}
+
+#btnlogin {
+    background: #0064B1;
+}
+
+#btnlogin:hover {
+    background: #004679;
+}
+
+.button:hover {
+    background: #004679;
+}
+
+.button-inner {
+    color: white;
+    font-size: 2vh;
+    font-family: sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.container {
+    z-index: 1;
+}

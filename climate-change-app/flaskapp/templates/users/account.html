@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="Group5">
+        <div class="Title">
+            <div class="MainDashboard">Main Dashboard</div>
+            <div class="WelcomeUser">Welcome, {{ current_user.firstname }}</div>
+        </div>
+        <div class="Buttons">
+            <a href="{{ url_for('users.game_dashboard') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="My Account Settings" class="button-img" src="{{ url_for('static', filename='game.png') }}" />
+                    <div class="btn-title">Game Dashboard</div>
+                    <div class="ButtonDescription">Start the Adventure</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('groups.groups_dashboard') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="Chat Image" class="button-img" src="{{ url_for('static', filename='chat.png') }}" />
+                    <div class="btn-title">Groups</div>
+                    <div class="ButtonDescription">Dive into Discussion<br />Chat in different Groups</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('education.view_all_posts') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="Blog and Digests Image" class="button-img" src="{{ url_for('static', filename='blog.png') }}" />
+                    <div class="btn-title">Posts and Digests</div>
+                    <div class="ButtonDescription">Read our Stories and Discover Insights</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('users.settings') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="My Account Settings Image" class="button-img" src="{{ url_for('static', filename='account.png') }}" />
+                    <div class="btn-title">Account Settings</div>
+                    <div class="ButtonDescription">Adjust your Preferences</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

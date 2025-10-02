@@ -1,0 +1,116 @@
+/*
+    Contains styling for quiz section
+ */
+
+h2 {
+    font-family: 'Inter', sans-serif;
+}
+
+h3 {
+    font-family: 'Inter', sans-serif;
+}
+
+.QuizBg {
+    z-index: 5;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 15vh;
+    margin-bottom: auto;
+    width: 90%;
+    height: 70vh;
+    position: relative;
+    background-color: rgba(217, 217, 217, 0.8);
+}
+
+.QuizBox {
+    background-color: White;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%
+}
+
+.QuizTitle {
+    color: white;
+    padding-left: 15px;
+    padding-top: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
+}
+
+.Button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    background-color: #2F6D89;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.Link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+
+.QuizBox fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.QuizBox legend {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* Style the question paragraph */
+.QuizBox p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* Style the labels and buttons */
+.QuizBox label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.QuizBox input[type="radio"] {
+    margin-right: 10px;
+}
+
+.QuizBox .submit {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #2F6D89;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.QuizBox .submit:hover {
+    background-color: #0056b3;
+}
+
+.QuizBox div {
+    margin-top: 20px;
+}

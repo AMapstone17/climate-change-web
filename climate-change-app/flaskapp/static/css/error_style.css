@@ -1,0 +1,22 @@
+.error-image {
+    width: 40%;
+    margin: 0;
+    opacity: 0.95;
+}
+
+.overlay {
+    /*background: none;*/
+}
+
+.msgBox h2 {
+    font-size: 5vh;
+}
+
+.msgBox {
+    background: none;
+}
+
+.overlay {
+    background: grey;
+    position: fixed;
+}

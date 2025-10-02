@@ -1,0 +1,171 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/posts_style.css') }}">
+    <script src="{{ url_for('static', filename='js/posts.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.short-post').click(function () {
+                var postId = $(this).find('div:first').text();
+                // Navigate to the post URL
+                window.location.href = '/posts/' + postId;
+            });
+            var shortDescription = document.querySelector('.short-description');
+            var text = shortDescription.innerText;
+            var lineHeight = parseInt(window.getComputedStyle(shortDescription)['line-height']);
+            var height = shortDescription.offsetHeight;
+
+            var lines = Math.floor(height / lineHeight);
+            if (lines > 3) {
+                var words = text.split(' ');
+                while (lines > 3) {
+                    words.pop();
+                    shortDescription.innerText = words.join(' ') + '...';
+                    height = shortDescription.offsetHeight;
+                    lines = Math.floor(height / lineHeight);
+                }
+            }
+
+
+            $('.btn').click(function () {
+                // Remove the 'active' class from all buttons
+                $('.btn').removeClass('active');
+
+                // Add the 'active' class to the clicked button
+                $(this).addClass('active');
+
+                // Hide all post displays
+                $('.short-post-display').hide();
+
+                // Show the corresponding post display
+                var id = $(this).attr('id') + '-display';
+                $('#' + id).show();
+            });
+            $('#new-post-form').hide();
+            $('#all-posts').trigger('click');
+        });
+        $(document).ready(function () {
+            $('#my-posts').click(function () {
+                $('.short-post-display').hide();
+                $('#my-posts-display').show();
+            });
+
+            $('#all-posts').click(function () {
+                $('.short-post-display').hide();
+                $('#all-posts-display').show();
+            });
+            $('#new-post-btn').click(function () {
+                $('#edit-post-form').hide();
+                $('#new-post-form').show();
+            });
+
+
+            $('#digests').click(function () {
+                $('.short-post-display').hide();
+                $('#digests-display').show();
+            });
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <h1 class="title">Posts</h1>
+            <div class="main-part">
+
+                <div class="selection-box">
+                    {% if current_user.role == 'admin' %}
+                        <button id="new-post-btn">New Post</button>
+                        <div class="folders">
+                    {% else %}
+                        <div class="folders-1">
+                    {% endif %}
+                    <div class="selection-buttons">
+                        {% if current_user.role == 'admin' %}
+                            <div class="btn" id="my-posts">My Posts</div>
+                        {% endif %}
+                        <div class="btn" id="all-posts">All Posts</div>
+                        <div class="btn" id="digests">Digests</div>
+                    </div>
+                    <div class="short-post-display" id="my-posts-display">
+                        {% for post in my_posts %}
+                            <div class="short-post">
+                                <div style="display: none">{{ post.id }}</div>
+                                <h3 class="short-title">{{ post.title }}</h3>
+                                <div class="short-description">
+                                    {{ post.content }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="short-post-display" id="all-posts-display">
+                        {% for post in all_posts %}
+                            <div class="short-post">
+                                <div style="display: none">{{ post.id }}</div>
+                                <h3 class="short-title">{{ post.title }}</h3>
+                                <div class="short-description">
+                                    {{ post.content }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="short-post-display" id="digests-display">
+                        {% for post in digests %}
+                            <div class="short-post">
+                                <div style="display: none">{{ post.id }}</div>
+                                <h3 class="short-title">{{ post.title }}</h3>
+                                <div class="short-description">
+                                    {{ post.content }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    </div>
+
+                    </div>
+
+                    <div class="display-box">
+                        <div class="display-data">
+                            <!--                        This is for Adding new Posts-->
+                            <form method="POST" action="{{ url_for('education.new_post') }}" id="new-post-form">
+                                {{ postForm.csrf_token }}
+                                {{ postForm.title(class="main-title", placeholder="Type title here...") }}
+                                <hr>
+                                <div class="description-label"><img src="../../static/description.png">Description</div>
+
+                                {{ postForm.content(class="main-content", placeholder="Type here...") }}
+                                {{ postForm.submit(class="submit") }}
+                            </form>
+                            <!--                        This is for viewing the Posts-->
+                            <form method="POST" id="edit-post-form" action="{{ url_for('education.edit_posts') }}">
+                                {{ postForm.csrf_token }}
+                                <input class="main-title" type="text" name="title" value="{{ post.title }}" {% if current_user.role != "admin" %}disabled{% endif %}>
+
+                                {% if current_user.role == 'admin' %}
+                                    <input class="edit-btn" type="submit" name="edit" value="Edit" {% if current_user.role != "admin" %}disabled{% endif %}>
+                                    <input class="del-btn" type="submit" name="delete" value="Delete" {% if current_user.role != "admin" %}disabled{% endif %}>
+                                {% endif %}
+                                <div class="author">Written by {{ author_name }} at {{ post.date_created }}</div>
+                                <hr>
+
+                                <div class="description-label"><img src="../../static/description.png">Description</div>
+
+                                <input type="hidden" name="id" value="{{ post.id }}">
+
+                                <textarea class="main-content" name="content" {% if current_user.role != "admin" %}disabled{% endif %}>{{ post.content }}</textarea>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

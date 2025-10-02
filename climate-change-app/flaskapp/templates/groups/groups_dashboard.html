@@ -1,0 +1,203 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/groups_dashboard_style.css') }}">
+    <script src="{{ url_for('static', filename='js/groups.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <h1 class="title">Groups</h1>
+            <div class="inner-container">
+                <div class="groups-container">
+                    <form method="GET" action="{{ url_for('groups.create_group') }}">
+                        <div>
+                            <button class="new-group-btn">
+                                <img class="new-group-img" src="{{ url_for('static', filename='group.png') }}" alt="Group Img">
+                                New Group
+                            </button>
+                        </div>
+                    </form>
+                    <div class="group-list">
+                        <div class="group-types-box">
+                            {% if mode == "all_groups" %}
+                                <button class="groups-btn-unfocussed" onclick="window.location.href='{{ url_for('groups.groups_dashboard', mode="my_groups") }}'">My Groups</button>
+                                <button class="groups-btn-focussed">All Groups</button>
+                            {% endif %}
+                            {% if mode == "my_groups" %}
+                                <button class="groups-btn-focussed">My Groups</button>
+                                <button class="groups-btn-unfocussed" onclick="window.location.href='{{ url_for('groups.groups_dashboard', mode="all_groups") }}'">All Groups</button>
+                            {% endif %}
+                        </div>
+                        <div class="scrollable-table">
+                            {% if mode == "my_groups" %}
+                                {% for group in users_groups %}
+                                    <button class="group-btn" onclick="window.location.href='{{ url_for('groups.groups_dashboard', mode="my_groups", focus_group_id=group.id) }}'">
+                                        <div class="group">
+                                            {% if group.current_user_is_owner() %}
+                                                <div class="group__owner-text-self">My Group</div>
+                                            {% endif %}
+                                            {% if not group.current_user_is_owner() %}
+                                                <div class="group__owner-text-else">Created by {{ group.get_owner() }}</div>
+                                            {% endif %}
+                                            <div class="group__title">{{ group.title }}</div>
+                                            <div class="group__location-container">
+                                                <img class="group__location-img" src="{{ url_for('static', filename='location.png') }}" alt="Location Img">
+                                                <div class="group__location-text">{{ group.location }}</div>
+                                            </div>
+                                            <div class="group__date-attendees-container">
+                                                <div class="group__date-container">
+                                                    <img class="group__date-img" src="{{ url_for('static', filename='date.png') }}" alt="Date Img">
+                                                    <div class="group__date-text">{{ group.get_datetime_string() }}</div>
+                                                </div>
+                                                <div class="group__attendees-container">
+                                                    <img class="group__attendees-img" src="{{ url_for('static', filename='attendees.png') }}" alt="Attendees Img">
+                                                    <div class="group__attendees-text">{{ group.get_number_of_members() }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                {% endfor %}
+                            {% endif %}
+                            {% if mode == "all_groups" %}
+                                {% for group in all_groups %}
+                                    <button class="group-btn" onclick="window.location.href='{{ url_for('groups.groups_dashboard', mode=mode, focus_group_id=group.id) }}'">
+                                        <div class="group">
+                                            {% if group.current_user_is_owner() %}
+                                                <div class="group__owner-text-self">My Group</div>
+                                            {% endif %}
+                                            {% if not group.current_user_is_owner() %}
+                                                <div class="group__owner-text-else">Created by {{ group.get_owner() }}</div>
+                                            {% endif %}
+                                            <div class="group__title">{{ group.title }}</div>
+                                            <div class="group__location-container">
+                                                <img class="group__location-img" src="{{ url_for('static', filename='location.png') }}" alt="Location Img">
+                                                <div class="group__location-text">{{ group.location }}</div>
+                                            </div>
+                                            <div class="group__date-attendees-container">
+                                                <div class="group__date-container">
+                                                    <img class="group__date-img" src="{{ url_for('static', filename='date.png') }}" alt="Date Img">
+                                                    <div class="group__date-text">{{ group.get_datetime_string() }}</div>
+                                                </div>
+                                                <div class="group__attendees-container">
+                                                    <img class="group__attendees-img" src="{{ url_for('static', filename='attendees.png') }}" alt="Attendees Img">
+                                                    <div class="group__attendees-text">{{ group.get_number_of_members() }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="post-box">
+                    <div class="post">
+                        {% if focussed_group != 0 %}
+                            <div class="post__title">{{ focussed_group.title }}</div>
+                            <div class="post__top-line">
+                                <div class="post__owner">Group Owner: {{ focussed_group.get_owner() }}</div>
+                                {% if focussed_group.current_user_is_owner() %}
+                                    <div class="post__top-line-box">
+                                        <button class="post__delete-btn" id="post__delete-btn" data-group-id="{{ focussed_group.id }}">
+                                            <img class="post__delete-img" src="{{ url_for('static', filename='delete.png') }}" alt="Delete Img">
+                                            <div class="post__top-line-text">Delete</div>
+                                        </button>
+                                        <div id="myModal" class="modal">
+                                            <!-- Modal content -->
+                                            <div class="modal-content">
+                                                <span class="close">&times;</span>
+                                                <p>Are you sure you want to delete this group?</p>
+                                                <button id="yes-btn">Yes</button>
+                                                <button id="no-btn">No</button>
+                                            </div>
+                                        </div>
+                                        <button class="post__edit-btn" onclick="window.location.href='{{ url_for('groups.edit_group', group_id=focussed_group.id) }}'">
+                                            <img class="post__edit-img" src="{{ url_for('static', filename='edit.png') }}" alt="Edit Img">
+                                            <div class="post__top-line-text">Edit</div>
+                                        </button>
+                                        <button class="post__attend-btn" onclick="window.location.href='{{ url_for('groups.attending', group_id=focussed_group.id) }}'">
+                                            {% if focussed_group.is_attending(current_user) %}
+                                                <img class=".post__tick-img" src="{{ url_for('static', filename='tick.png') }}" alt="Tick Img">
+                                            {% endif %}
+                                            <div class="post__top-line-text">Attend</div>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                {% if not focussed_group.current_user_is_owner() %}
+                                    {% if focussed_group.current_user_is_member() %}
+                                        <div class="post__top-line-box">
+                                            <button class="post__leave-btn" onclick="window.location.href='{{ url_for('groups.leave_group', group_id=focussed_group.id) }}'">
+                                                <img class="post__delete-img" src="{{ url_for('static', filename='delete.png') }}" alt="Delete Img">
+                                                <div class="post__top-line-text">Leave</div>
+                                            </button>
+                                            <button class="post__attend-btn" onclick="window.location.href='{{ url_for('groups.attending', group_id=focussed_group.id) }}'">
+                                                {% if focussed_group.is_attending(current_user) %}
+                                                    <img class=".post__tick-img" src="{{ url_for('static', filename='tick.png') }}" alt="Tick Img">
+                                                {% endif %}
+                                                <div class="post__top-line-text">Attend</div>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                    {% if not focussed_group.current_user_is_member() %}
+                                        <div class="post__top-line-box">
+                                            <button class="post__join-btn" onclick="window.location.href='{{ url_for('groups.join_group', group_id=focussed_group.id) }}'">
+                                                <img class="post__delete-img" src="{{ url_for('static', filename='delete.png') }}" alt="Delete Img">
+                                                <div class="post__top-line-text">Join</div>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="post__top-divider"></div>
+                            <div class="post__bottom-box">
+                                <div class="post__description-box">
+                                    <div class="post__description-top-line">
+                                        <img class="post__description-top-line-img" src="{{ url_for('static', filename='description.png') }}" alt="Description Img">
+                                        <div class="post__description-top-line-text">Description</div>
+                                    </div>
+                                    <div class="post__description-text">{{ focussed_group.description }}</div>
+                                </div>
+                                <div class="post__side-divider"></div>
+                                <div class="post__info-box">
+                                    <div class="post__date-box">
+                                        <img class="post__date-img" src="{{ url_for('static', filename='date.png') }}" alt="Date Img">
+                                        <div class="post__date-text">{{ focussed_group.get_datetime_string() }}</div>
+                                    </div>
+                                    <div class="post__location-line">
+                                        <img class="group__location-img" src="{{ url_for('static', filename='location.png') }}" alt="Location Img">
+                                        <div class="post__location-text">{{ focussed_group.location }}</div>
+                                    </div>
+                                    <div class="post__members-box">
+                                        <div class="post__members-top-line">
+                                            <img class="group__attendees-img" src="{{ url_for('static', filename='attendees.png') }}" alt="Attendees Img">
+                                            <div class="post__members-text">Members</div>
+                                        </div>
+                                        <div class="post__scrollable-table">
+                                            {% for member in focussed_group_members %}
+                                                <div class="post__username-box">
+                                                    <div class="post__username">{{ member[0] }}</div>
+                                                    {% if member[1] %}
+                                                        <img class="post__tick-img" src="{{ url_for('static', filename='tick.png') }}" alt="Tick Img">
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if focussed_group == 0 %}
+                            <div class="no-group-box">
+                                <img class="no-group-globe-img" src="{{ url_for('static', filename='globe.png') }}" alt="Globe Img">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

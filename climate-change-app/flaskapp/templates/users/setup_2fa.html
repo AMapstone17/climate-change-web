@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/setup_2fa_style.css') }}">
+
+{% endblock %}
+{% block content %}
+    <div class="authyBox">
+        <h3 class="title is-3">Setup 2fa</h3>
+
+        <p>To set up 2 factor authentication under the account name {{ username }},
+            scan the following QR code with your smartphone's authenticator app:</p>
+
+        <p><img src="{{ qrcode(uri, box_size=2.5, border=1) }}" alt="Qr Code"><br>{{ pin }}</p>
+        {% if current_user.role!='admin' %}
+            <p>Once set up, please go to the <a href="{{ url_for('users.login') }}"><u>Login</u></a> page</p>
+        {% endif %}
+        {% if current_user.role=='admin' %}
+            <p>Once set up, you can <a href="{{ url_for('users.logout') }}"><u>Logout</u></a> and access the account
+                you have just created</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+.container {
+    z-index: 0;
+}
+
+.background-img {
+    z-index: -1;
+}

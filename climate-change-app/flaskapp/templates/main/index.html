@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="title">
+        Together<br>
+        We<br>
+        Thrive
+    </div>
+    <div class="description">
+        Join us in making a difference! Together, we can be the change
+        our planet needs. Dive into interactive games, tackle real-world
+        environmental tasks, and be part of the solution. Let's create a
+        greener, cleaner future, one click at a time.
+    </div>
+    <div class="buttons">
+        <div class="button" id="btnlogin">
+            <a class="button-inner" href="{{ url_for('users.login') }}">Login</a>
+        </div>
+        <div class="button">
+            <a class="button-inner" href="{{ url_for('users.register') }}">Create an Account</a>
+        </div>
+    </div>
+{% endblock %}

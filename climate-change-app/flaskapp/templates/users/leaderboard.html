@@ -1,0 +1,151 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            // Define the 'active' class
+            var activeClass = 'active';
+
+            // When an element with the class 'game-board' is clicked
+            $('.game-board').click(function () {
+                // Show the element with the id 'game-section' and add the 'active' class
+                $('#game-section').show();
+                $('#game-board').addClass(activeClass);
+                // Hide the element with the id 'combined-section' and remove the 'active' class
+                $('#combined-section').hide();
+                $('#combined-board').removeClass(activeClass);
+                // Change the background color of the clicked board
+                $(this).css('background-color', 'white'); // The clicked board will have this color
+                $('.combined-board').css('background-color', '#bbbbbb'); // The other board will have this color
+                $(this).css('z-index', '10'); // The clicked board will be on top
+                $('.combined-board').css('z-index', '9'); // The other board will be below
+            });
+
+            // When an element with the class 'combined-board' is clicked
+            $('.combined-board').click(function () {
+                // Show the element with the id 'combined-section' and add the 'active' class
+                $('#combined-section').show();
+                $('#combined-board').addClass(activeClass);
+                // Hide the element with the id 'game-section' and remove the 'active' class
+                $('#game-section').hide();
+                $('#game-board').removeClass(activeClass);
+                // Change the background color of the clicked board
+                $(this).css('background-color', 'white'); // The clicked board will have this color
+                $('.game-board').css('background-color', '#bbbbbb'); // The other board will have this color
+                $(this).css('z-index', '10'); // The clicked board will be on top
+                $('.game-board').css('z-index', '9'); // The other board will be below
+            });
+
+            // Trigger the 'click' event on the '.combined-board' element on startup
+            $('.combined-board').trigger('click');
+        });
+
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <h1 class="title">Leaderboard</h1>
+            <div class="leaderboard-box">
+                <!-- HTML structure -->
+                <div class="LeaderboardOptions">
+                    <div class="game-board">
+                        <span>Game Score Board</span>
+                    </div>
+                    <div class="combined-board">
+                        <span>Combined Score Board</span>
+                    </div>
+                </div>
+                <div id="game-section">
+                    <div class="top3-box">
+                        <table class="top3-table">
+                            <tr>
+                                <td>
+                                    <img class="top2-3-img" src="{{ url_for('static', filename='top2.png') }}" alt="Placeholder Image">
+                                    <div class="top2-text">{{ game_second[0] }}<br>#{{ game_second[1] }}</div>
+                                </td>
+                                <td>
+                                    <img class="top1-img" src="{{ url_for('static', filename='top1.png') }}" alt="Placeholder Image">
+                                    <div class="top1-text">{{ game_first[0] }}<br>#{{ game_first[1] }}</div>
+                                </td>
+                                <td>
+                                    <img class="top2-3-img" src="{{ url_for('static', filename='top3.png') }}" alt="Placeholder Image">
+                                    <div class="top3-text">{{ game_third[0] }}<br>#{{ game_third[1] }}</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    {#New Line#}
+                    <br>
+
+                    <div class="rest-scores">
+                        <table>
+                            <tr>
+                                <th>Pos</th>
+                                <th>User</th>
+                                <th>Score</th>
+                            </tr>
+                            {% for entry in game_the_rest %}
+                                <tr>
+                                    <td>{{ loop.index + 3 }}</td>
+                                    <td>{{ entry[0] }}</td>
+                                    <td>#{{ entry[1] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+
+                <div id="combined-section">
+                    <div class="top3-box">
+                        <table class="top3-table">
+                            <tr>
+                                <td>
+                                    <img class="top2-3-img" src="{{ url_for('static', filename='top2.png') }}" alt="Placeholder Image">
+                                    <div class="top2-text">{{ combined_second[0] }}<br>#{{ combined_second[1] }}</div>
+                                </td>
+                                <td>
+                                    <img class="top1-img" src="{{ url_for('static', filename='top1.png') }}" alt="Placeholder Image">
+                                    <div class="top1-text">{{ combined_first[0] }}<br>#{{ combined_first[1] }}</div>
+                                </td>
+                                <td>
+                                    <img class="top2-3-img" src="{{ url_for('static', filename='top3.png') }}" alt="Placeholder Image">
+                                    <div class="top3-text">{{ combined_third[0] }}<br>#{{ combined_third[1] }}</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    {#New Line#}
+                    <br>
+
+                    <div class="rest-scores">
+                        <table>
+                            <tr>
+                                <th>Pos</th>
+                                <th>User</th>
+                                <th>Score</th>
+                            </tr>
+                            {% for entry in combined_the_rest %}
+                                <tr>
+                                    <td>{{ loop.index + 3 }}</td>
+                                    <td>{{ entry[0] }}</td>
+                                    <td>#{{ entry[1] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

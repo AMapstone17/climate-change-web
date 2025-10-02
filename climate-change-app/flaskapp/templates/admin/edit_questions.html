@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/edit_questions_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <h1 class="title">Edit Quiz Questions</h1>
+            <div class="question-box">
+                <div class="question-display">
+                    <div id="change-question-content" class="content">
+                        <div class="display-title">
+                            Change Questions
+                            <hr>
+                        </div>
+                        <!--Main Content-->
+                        <div class="main-content-display">
+                            <table class="table">
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Correct Option</th>
+                                    <th>Incorrect Option 1</th>
+                                    <th>Incorrect Option 2</th>
+                                    <th>Incorrect Option 3</th>
+                                    <th>Actions</th>
+                                </tr>
+                                {% for question in questions %}
+                                    <form method="POST">
+                                        {{ form.csrf_token }}
+                                        <tr>
+                                            <td>
+                                                <input class="input" type="text" name="question" value="{{ question.question }}">
+                                            </td>
+                                            <td>
+                                                <input class="input" type="text" name="answer" value="{{ question.answer }}">
+                                            </td>
+                                            <td>
+                                                <input class="input" type="text" name="option1" value="{{ question.option1 }}">
+                                            </td>
+                                            <td>
+                                                <input class="input" type="text" name="option2" value="{{ question.option2 }}">
+                                            </td>
+                                            <td>
+                                                <input class="input" type="text" name="option3" value="{{ question.option3 }}">
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="id" value="{{ question.id }}">
+                                                <input class="edit-btn" type="submit" name="edit" value="Edit">
+                                                <input class="del-btn" type="submit" name="delete" value="Delete">
+                                            </td>
+                                        </tr>
+                                    </form>
+                                {% endfor %}
+
+                                <form method="POST" action="{{ url_for('admin.new_question') }}">
+                                    {{ form.csrf_token }}
+                                    <tr>
+                                        <td>
+                                            <input class="input" type="text" name="question" value="">
+                                        </td>
+                                        <td>
+                                            <input class="input" type="text" name="answer" value="">
+                                        </td>
+                                        <td>
+                                            <input class="input" type="text" name="option1" value="">
+                                        </td>
+                                        <td>
+                                            <input class="input" type="text" name="option2" value="">
+                                        </td>
+                                        <td>
+                                            <input class="input" type="text" name="option3" value="">
+                                        </td>
+                                        <td>
+                                            <input class="add-btn" type="submit" name="add" value="Add Question">
+                                        </td>
+                                    </tr>
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

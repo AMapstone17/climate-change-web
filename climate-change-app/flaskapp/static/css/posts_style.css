@@ -1,0 +1,299 @@
+.FormBox {
+
+    width: 150vh;
+    height: 78vh;
+    border-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.8);
+    padding-left: 1vh;
+}
+
+.title {
+    font-family: sans-serif;
+    font-size: 6vh;
+    color: white;
+    margin-top: 1vh;
+    margin-left: 1vh;
+}
+
+.inner-box {
+
+}
+
+.main-part {
+    top: -5vh;
+    display: flex;
+}
+
+.selection-box {
+    width: 20%;
+
+}
+
+#new-post-btn {
+    background-image: url('../../static/write.png');
+    background-position: 2vh;
+    background-repeat: no-repeat;
+    background-size: 3vh;
+    padding-left: 1vh;
+    border: none;
+    font-family: sans-serif;
+    color: white;
+    height: 6vh;
+    font-weight: bold;
+    width: 100%;
+    font-size: 3vh;
+    text-align: center;
+    border-radius: 999px;
+    background-color: #D9D9D9;
+    filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+#new-post-btn:hover {
+    background-color: #a9a9a9;
+    cursor: pointer;
+}
+
+.folders {
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-top: 2vh;
+    height: 55vh;
+    overflow-y: auto;
+}
+
+.folders-1 {
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-top: 0vh;
+    height: 60vh;
+    overflow-y: auto;
+}
+
+.selection-buttons {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    font-size: 2vh;
+    font-family: sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    margin-top: 1vh;
+    margin-right: 2px;
+    text-align: center;
+    width: 15vh;
+    height: 3.5vh;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.19);
+    background: #FFFFFF;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background: #C7C7C7;
+}
+
+.display-box {
+    margin-left: 3vh;
+    border-radius: 10px;
+    background: #FFFFFF;
+    width: 75%;
+}
+
+.display-data {
+    border-radius: 10px;
+    background: #D9D9D9;
+    height: 55vh;
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+
+.short-post-display {
+    /*height: 2vh;*/
+}
+
+.short-post {
+    background: #E6E6E6;
+    border-radius: 10px;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 10vh;
+}
+
+.short-post:hover {
+    cursor: pointer;
+    background: #C7C7C7;
+}
+
+.short-post h3 {
+    margin-bottom: 0;
+    font-family: sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.short-description {
+    margin-top: 0;
+    font-family: sans-serif;
+    font-size: 1.75vh;
+    color: #8F8F8F;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.short-title {
+    font-size: 2vh;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+hr {
+    border-color: #E6E6E6;
+    color: #E6E6E6;
+    background: #E6E6E6;
+    width: 97%;
+}
+
+
+/* This applies to all scrollable elements */
+::-webkit-scrollbar {
+    width: 0.5vh; /* width of the entire scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* color of the tracking area */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; /* color of the scroll thumb */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the scroll thumb on hover*/
+}
+
+.active {
+    background-color: #C7C7C7;
+}
+
+.main-title {
+    display: block;
+    font-size: 4vh;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    /*border-bottom: 1px solid #888888;*/
+    outline: none;
+    background: none;
+    text-align: center;
+    width: 90%;
+}
+
+.description-label {
+    margin-left: 5vh;
+    font-size: 2vh;
+    font-family: sans-serif;
+
+}
+
+.description-label img {
+    width: 3vh;
+
+}
+
+.main-content {
+    display: block;
+    font-size: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none;
+    border: none;
+    /*border-color: #9b9b9b;*/
+    background: none;
+    text-align: left;
+    width: 90%;
+    height: 38vh;
+}
+
+.submit {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2vh;
+    margin-top: 0.75vh;
+    height: 4vh;
+    width: 15vh;
+    border: none;
+    border-radius: 100px;
+    color: #212121;
+    background-color: #FFFFFF;
+}
+
+.submit:hover {
+    background-color: #ababab;
+    cursor: pointer;
+}
+
+#new-post-form {
+    display: none;
+}
+
+.edit-btn {
+    margin-left: 90vh;
+    text-align: right;
+    background-color: #D9D9D9;
+    width: 6vh;
+    border: none;
+    outline: none;
+    background-image: url('../../static/edit.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 2vh;
+}
+
+.del-btn {
+    text-align: right;
+    background-color: #D9D9D9;
+    width: 8vh;
+    border: none;
+    outline: none;
+    background-image: url('../../static/delete.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 2vh;
+}
+
+.del-btn:hover, .edit-btn:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.author {
+    font-family: sans-serif;
+    position: absolute;
+    margin-top: -2vh;
+    font-weight: lighter;
+    font-size: 2vh;
+    color: #5d5d5d;
+    margin-left: 2vh;
+}

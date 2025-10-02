@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/quiz_style.css') }}">
+{% endblock %}
+{% block content %}
+    <div class=QuizBg>
+        <h1 class="QuizTitle">Quiz</h1>
+        <div class="QuizBox">
+            <form method="POST">
+                {{ form.csrf_token }}
+                <fieldset>
+                    <legend>Question {{ page_index }}</legend>
+                    <p>{{ question.question }}</p>
+                    {% for subfield in form.option %}
+                        <label>{{ subfield() }} {{ subfield.label }}</label><br>
+                    {% endfor %}
+                </fieldset>
+                <div>
+                    {{ form.submit(class="submit") }}
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

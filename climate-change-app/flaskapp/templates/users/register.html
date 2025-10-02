@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register_style.css') }}">
+
+{% endblock %}
+{% block content %}
+    <div class="FormBox">
+        <h3 class="registerTitle">Register</h3>
+        <div class="box">
+
+            <form method="POST">
+                <div class="input-field">
+                    {{ form.csrf_token }}
+                    <div class="control">
+                        {{ form.email(class="input", placeholder="Email") }}
+                        <div class="error-msg">
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field-password">
+                    <div class="control">
+                        {{ form.firstname(class="password_input", placeholder="First Name") }}
+                        <div class="error-msg">
+                            {% for error in form.firstname.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="space-control-password"></div>
+                    <div class="control">
+                        {{ form.lastname(class="password_input", placeholder="Last Name") }}
+                        <div class="error-msg">
+                            {% for error in form.lastname.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <div class="control">
+                        {{ form.date_of_birth(class="input", placeholder="Date Of Birth") }}
+                        <div class="error-msg">
+                            {% for error in form.date_of_birth.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <div class="control">
+                        {{ form.username(class="input", placeholder="Username") }}
+                        <div class="error-msg">
+                            {% for error in form.username.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field-password">
+                    <div class="control">
+                        {{ form.password(class="password_input", placeholder="Password") }}
+                        <div class="error-msg" style="width: 40%">
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="space-control-password"></div>
+                    <div class="control">
+                        {{ form.confirm_password(class="password_input", placeholder="Confirm Password") }}
+                        <div class="error-msg" style="width: 40%">
+                            {% for error in form.confirm_password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="registerButton">
+                    {{ form.submit(class="button") }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,165 @@
+.FormBox {
+    top: 12vh;
+    width: 150vh;
+    height: 82vh;
+    border-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.8);
+    padding-left: 1vh;
+}
+
+.title {
+    font-family: sans-serif;
+    font-size: 6vh;
+    color: white;
+    margin-top: 1vh;
+    margin-left: 1vh;
+}
+
+.display-title {
+    margin-top: 1vh;
+    text-align: center;
+    font-size: 4vh;
+    font-family: sans-serif;
+}
+
+.leaderboard-box {
+    margin-top: -3vh;
+    border-radius: 10px;
+    width: 85%;
+    height: 69vh;
+    background: white;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+}
+
+.top3-box {
+    font-family: sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top3-table {
+    width: 100%; /* Adjust the width as needed */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top3-table td {
+    width: 50vh; /* Adjust the width as needed */
+    text-align: center; /* This will keep the content centered */
+}
+
+.top2-3-img {
+    width: 10vh;
+
+}
+
+.top1-img {
+
+    width: 15vh;
+}
+
+.top2-text {
+    font-size: 2vh;
+    color: black;
+    font-weight: bold;
+}
+
+.top3-text {
+    font-size: 2vh;
+    color: black;
+    font-weight: bold;
+}
+
+.top1-text {
+    font-size: 2.5vh;
+    color: black;
+    font-weight: bold;
+}
+
+
+.rest-scores th:nth-child(1), .rest-scores td:nth-child(1),
+.rest-scores th:nth-child(3), .rest-scores td:nth-child(3) {
+    width: 10%; /* Sets the width of the first and third column to be as narrow as possible */
+    white-space: nowrap; /* Ensures the content of these cells does not wrap */
+}
+
+.rest-scores td {
+    height: 3.5vh;
+    border-bottom: 1px solid #d7d7d7; /* Adds a fine line between rows */
+}
+
+.rest-scores {
+    display: block;
+    height: 22vh;
+    width: 100%;
+    overflow: auto;
+}
+
+.rest-scores th {
+    background-color: #B9B9B9;
+    border-bottom: 1px solid #d7d7d7; /* Adds a fine line between rows */
+    top: 0px;
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 5;
+}
+
+.rest-scores table {
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    text-align: left;
+    font-family: sans-serif;
+    border-collapse: collapse; /* Ensures that the border is collapsed into a single border */
+    border-color: #6F6F6F;
+    border-width: 1vh;
+}
+
+
+.LeaderboardOptions {
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+    width: 45vh;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    border-radius: 100px;
+    border-color: #212121;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-board, .combined-board {
+    width: 22.5vh;
+    height: 3.5vh;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.89);
+    background: #bbbbbb;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.game-board:hover, .combined-board:hover {
+    background: #d9d9d9;
+    cursor: pointer;
+}
+
+.active {
+    background: #d9d9d9;
+}
+
+.game-board span, .combined-board span {
+    color: black;
+    font-size: 2vh;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    line-height: 13px;
+}

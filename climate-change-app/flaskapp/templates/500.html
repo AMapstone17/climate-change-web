@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/error_style.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="msgBox">
+        <h2>Error 500 - Internal Server Error</h2>
+        <img class="error-image" src="{{ url_for('static', filename='error-tree.png') }}" alt="Placeholder Image">
+        <p>An internal server error occurred while processing your request.</p>
+        <p>Something went wrong on the server, and the request could not be fulfilled.</p>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500" target="_blank">Learn more about the 500 Internal Server Error</a>
+    </div>
+{% endblock %}

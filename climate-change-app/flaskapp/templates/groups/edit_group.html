@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/edit_group_style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='listeners.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <div class="post-box">
+                <form method="POST">
+                    <div class="form">
+                        {{ form.csrf_token }}
+                        <div class="form__input-header">Title</div>
+                        <div class="control">
+                            {{ form.title(class="form__small-input", placeholder=group_editing.title) }}
+                            {% for error in form.title.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form__input-header">Description</div>
+                        <div class="control">
+                            {{ form.description(class="form__big-input", placeholder=group_editing.description) }}
+                            {% for error in form.description.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form__input-header">Location</div>
+                        <div class="control">
+                            {{ form.location(class="form__small-input", placeholder=group_editing.location) }}
+                            {% for error in form.location.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form__input-header">Date / Time</div>
+                        <div class="control">
+                            {{ form.event_date(class="form__small-input", placeholder=group_editing.get_datetime_form_string()) }}
+                            {% for error in form.event_date.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form__submit-box">
+                            <div>
+                                {{ form.submit(class="button is-info is-centered") }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

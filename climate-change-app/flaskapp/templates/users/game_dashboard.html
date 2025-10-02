@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/game_dashboard_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="Group5">
+        <div class="Title">
+            <div class="MainDashboard">Gaming Dashboard</div>
+        </div>
+        <div class="Buttons">
+            <a href="{{ url_for('users.game') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="Game Image" class="button-img" src="{{ url_for('static', filename='game.png') }}" />
+                    <div class="btn-title">Game</div>
+                    <div class="ButtonDescription">Start the Adventure</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('quiz.quiz') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="Quiz Image" class="button-img" src="{{ url_for('static', filename='quiz.png') }}" />
+                    <div class="btn-title">Quiz</div>
+                    <div class="ButtonDescription">Test your knowledge</div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('users.leaderboard') }}" class="ButtonLinks">
+                <div class="ButtonBox">
+                    <img alt="Leaderboard Image" class="button-img" src="{{ url_for('static', filename='leaderboard.png') }}" />
+                    <div class="btn-title">Leaderboard</div>
+                    <div class="ButtonDescription">Have a peak in the Hall of Fame</div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+{% endblock %}

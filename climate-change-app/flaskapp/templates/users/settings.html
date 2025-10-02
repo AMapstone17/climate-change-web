@@ -1,0 +1,180 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings_style.css') }}">
+    <script src="{{ url_for('static', filename='js/settings.js') }}" defer></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='listeners.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <h1 class="title">Account Settings</h1>
+            <div class="settings-box">
+                <div class="selection-box">
+                    <div class="selection-option" id="change-password-option">Change Password</div>
+                    <div class="selection-option" id="change-info-option">My Personal Information</div>
+                    {% if current_user.role == 'admin' %}
+                        <div class="selection-option" id="create-admin-option">Create an Administrator</div>{% endif %}
+                    {% if current_user.role == 'admin' %}
+                        <div class="selection-option" id="view-users-option">View All Users</div>{% endif %}
+                    <!-- Trigger/Open The Modal -->
+                    <div class="selection-option" id="delete-btn">Delete my Account</div>
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p>Are you sure you want to delete your account?</p>
+
+                            <button id="yes-btn">Yes</button>
+                            <button id="no-btn">No</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="selection-display">
+                    <div id="change-password-content" class="content" style="display: none;">
+                        <div class="display-title">
+                            Change Password
+                            <hr>
+                        </div>
+                        <!--Main Content-->
+                        <div class="main-content-display">
+                            <form method="POST" action="{{ url_for('users.change_password') }}">
+                                <div class="input-field">
+                                    {{ passwordForm.csrf_token }}
+                                    <div class="control">
+                                        {{ passwordForm.current_password(class="input", placeholder="Current Password") }}
+                                        <div class="control">
+                                            {{ passwordForm.show_password() }}
+                                            {{ passwordForm.show_password.label }}
+                                        </div>
+                                        <div class="error-msg">{% for error in passwordForm.current_password.errors %} {{ error }} {% endfor %}</div>
+                                    </div>
+                                </div>
+                                <div class="input-field">
+                                    <div class="control">
+                                        {{ passwordForm.new_password(class="input", placeholder="New Password") }}
+                                        <div class="error-msg">{% for error in passwordForm.new_password.errors %} {{ error }} {% endfor %}</div>
+                                    </div>
+                                </div>
+                                <div class="input-field">
+                                    <div class="control">
+                                        {{ passwordForm.confirm_new_password(class="input", placeholder="Confirm New Password") }}
+                                        <div class="error-msg">{% for error in passwordForm.confirm_new_password.errors %} {{ error }} {% endfor %}</div>
+                                    </div>
+                                </div>
+                                <div class="updateButton">
+                                    {{ passwordForm.submit(class="button-inner") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="change-info-content" class="content" style="display: none;">
+                        <div class="display-title">
+                            My Personal Information
+                            <hr>
+                        </div>
+                        <!--Main Content-->
+                        <div class="main-content-display">
+                            <table class="user-info">
+                                <tr>
+                                    <td class="user-info-title">Username:</td>
+                                    <td>{{ current_user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="user-info-title">Email:</td>
+                                    <td>{{ current_user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="user-info-title">First Name:</td>
+                                    <td>{{ current_user.firstname }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="user-info-title">Last Name:</td>
+                                    <td>{{ current_user.lastname }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="user-info-title">Date of Birth:</td>
+                                    <td>{{ current_user.date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="user-info-title">Role:</td>
+                                    <td>{{ current_user.role }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% if current_user.role == 'admin' %}
+                        <div id="create-admin-content" class="content" style="display: none;">
+                            <div class="display-title">
+                                Add an Administrator
+                                <hr>
+                            </div>
+                            <!--Main Content-->
+                            <div class="main-content-display">
+                                <div class="instructions">Please enter the email and username of the user you would like to upgrade</div>
+                                <form method="POST" action="{{ url_for('users.create_admin') }}">
+                                    <div class="input-field">
+                                        {{ adminForm.csrf_token }}
+                                        <div class="control">
+                                            {{ adminForm.email(class="input", placeholder="User's email") }}
+                                            <div class="error-msg">{% for error in adminForm.email.errors %} {{ error }} {% endfor %}</div>
+                                        </div>
+                                    </div>
+                                    <div class="input-field">
+                                        <div class="control">
+                                            {{ adminForm.username(class="input", placeholder="User's username") }}
+                                            <div class="error-msg">{% for error in adminForm.username.errors %} {{ error }} {% endfor %}</div>
+                                        </div>
+                                    </div>
+                                    <div class="updateButton">
+                                        {{ adminForm.submit(class="button-inner") }}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>{% endif %}
+                    {% if current_user.role == 'admin' %}
+                        <div id="view-users-content" class="content" style="display: none;">
+                            <div class="display-title">
+                                View All Users
+                                <hr>
+                            </div>
+                            <!--Main Content-->
+                            <div class="main-content-display">
+                                <div class="scrollable-table">
+                                    <table class="user-table">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Username</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td>{{ user.id }}</td>
+                                                <td>{{ user.username }}</td>
+                                                <td>{{ user.firstname }}</td>
+                                                <td>{{ user.lastname }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.role }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

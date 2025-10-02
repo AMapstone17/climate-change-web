@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create_group_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="FormBox">
+        <div class="inner-box">
+            <a onclick="history.back()" class="back-btn">< Go Back</a>
+            <div class="form-box">
+                <form method="POST">
+                    <div class="form">
+                        <h3 class="create-title">Create Group</h3>
+                        {{ form.csrf_token }}
+                        <div class="control">
+                            {{ form.title(class="form__small-input", placeholder="Title") }}
+                            {% for error in form.title.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="control">
+                            {{ form.description(class="form__big-input", placeholder="Description") }}
+                            {% for error in form.description.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="control">
+                            {{ form.location(class="form__small-input", placeholder="Location") }}
+                            {% for error in form.location.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="control">
+                            {{ form.event_date(class="form__small-input", placeholder="DD-MM-YY HH:MM") }}
+                            {% for error in form.event_date.errors %}
+                                <div class="error-msg">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form__submit-box">
+                            <div>
+                                {{ form.submit(class="button is-info is-centered") }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,443 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/game_style.css') }}">
+    <style>
+        .game-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game-box {
+            position: relative;
+            overflow: hidden;
+            background-color: lightgreen;
+            width: 800px;
+            height: 550px;
+        }
+
+        #final-score {
+            font-size: 50px;
+            color: red;
+            text-align: center;
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        #high-score {
+            font-size: 50px;
+            color: red;
+            text-align: center;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="game-wrapper">
+        <div class="game-box">
+            <div id="game-container" style="width: 800px; height: 550px;">
+                <p id="score" style="position: absolute; top: 30px; left: 10px;">Score: 0</p>
+                <p id="lives" style="position: absolute; top: 10px; left: 10px;">Lives: <span id="life-icons"></span></p>
+                <img id="menu-screen" src="/static/img/Menu.png" style="width:100%; height:100%; position:absolute; top:0; left:0;" alt="Menu Screen">
+                <div id="game-over-screen" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none;">
+                    <img src="/static/img/Earth.png" style="width:100%; height:100%" alt="Game Over">
+                    <p id="final-score">Final Score: 0</p>
+                    <p id="high-score" style="display: none;">High Score: 0</p>
+                </div>
+            </div>
+            <p id="game-over" style="display: none;">GAME OVER</p>
+        </div>
+    </div>
+    <script>
+        class BasicGame {
+            constructor() {
+                this.canvas = null;
+                this.ctx = null;
+                this.player = {
+                    x: 50,
+                    y: 50,
+                    speed: 5,
+                    width: 75,
+                    height: 75,
+                    image: new Image()
+                };
+                this.player.image.src = '/static/img/Player.png';
+                this.soils = []; // Store multiple soil patches
+                this.machines = [
+                    { x: 0, y: 200, width: 60, height: 60, speedX: 12, speedY: 12 },
+                    { x: 200, y: 400, width: 60, height: 60, speedX: -12, speedY: -12 }
+                ];
+                this.machineImage = new Image();
+                this.machineImage.src = '/static/img/Machine.png';
+                this.score = 0;
+                this.lives = 3; // Initialise lives to 3
+                this.gameOver = false;
+                this.lifeLostTimeout = false; // Track if there is a timeout to prevent multiple lives lost at once
+            }
+
+            init() {
+                this.canvas = document.createElement('canvas');
+                this.canvas.width = 800;
+                this.canvas.height = 550;
+                this.ctx = this.canvas.getContext('2d');
+                document.getElementById('game-container').appendChild(this.canvas);
+                this.setupInput();
+                this.updateLifeDisplay();
+                this.gameLoop();
+            }
+
+            render() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.drawImage(this.player.image, this.player.x, this.player.y, this.player.width, this.player.height);
+                this.soils.forEach(soil => {
+                    if (soil.active) {
+                        // Draw soil image
+                        this.ctx.drawImage(soil.image, soil.x, soil.y, soil.width, soil.height);
+
+                        // If soil is active then display timer
+                        const currentTime = Date.now();
+                        const remainingTime = Math.ceil((5000 - (currentTime - soil.spawnTime)) / 1000);
+                        if (remainingTime > 0) {
+                            const timerX = soil.x + soil.width / 2;
+                            const timerY = soil.y + soil.height / 2;
+                            this.ctx.fillStyle = 'black';
+                            this.ctx.font = '20px Arial';
+                            this.ctx.textAlign = 'center';
+                            this.ctx.fillText(`${remainingTime}s`, timerX, timerY);
+                        }
+                    }
+                });
+
+                // Render deforestation machines
+                this.machines.forEach(machine => {
+                    this.ctx.drawImage(this.machineImage, machine.x, machine.y, machine.width, machine.height);
+                });
+
+                document.getElementById('score').innerText = `Score: ${this.score}`;
+                if (this.gameOver) {
+                    document.getElementById('game-over').style.display = 'block';
+                    document.getElementById('final-score').innerText = `Final Score: ${this.score}`;
+                    document.getElementById('final-score').style.display = 'block';
+                }
+            }
+
+            setupInput() {
+                let movementX = 0;
+                let movementY = 0;
+
+                const movePlayer = () => {
+                    let newX = this.player.x + movementX;
+                    let newY = this.player.y + movementY;
+
+                    // Check boundaries
+                    newX = Math.max(0, Math.min(this.canvas.width - this.player.width, newX));
+                    newY = Math.max(0, Math.min(this.canvas.height - this.player.height, newY));
+
+                    this.player.x = newX;
+                    this.player.y = newY;
+                    this.checkCollisions();
+                    this.render();
+                };
+
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowUp') {
+                        movementY = -this.player.speed;
+                        event.preventDefault(); // Prevent default action (scrolling)
+                    } else if (event.key === 'ArrowDown') {
+                        movementY = this.player.speed;
+                        event.preventDefault(); // Prevent default action (scrolling)
+                    } else if (event.key === 'ArrowLeft') {
+                        movementX = -this.player.speed;
+                    } else if (event.key === 'ArrowRight') {
+                        movementX = this.player.speed;
+                    }
+                });
+
+                document.addEventListener('keyup', (event) => {
+                    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                        movementY = 0;
+                    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                        movementX = 0;
+                    }
+                });
+
+                setInterval(movePlayer, 1000 / 60); // 60 FPS
+            }
+
+            checkCollisions() {
+                if (this.gameOver) return;
+                this.soils.forEach(soil => {
+                    if (soil.active &&
+                        this.player.x < soil.x + soil.width &&
+                        this.player.x + this.player.width > soil.x &&
+                        this.player.y < soil.y + soil.height &&
+                        this.player.y + this.player.height > soil.y) {
+                        if (soil.image.src.includes("Soil")) {
+                            soil.active = false;
+                            soil.touched = true; // Mark soil as touched
+                            clearTimeout(soil.timeoutId);
+                            this.score++;
+
+                            // Remove the timer from the canvas
+                            this.render();
+
+                            // Replace soil with tree1 immediately
+                            const tree1 = {
+                                x: soil.x,
+                                y: soil.y,
+                                width: 50,
+                                height: 50,
+                                active: true,
+                                image: new Image()
+                            };
+                            tree1.image.src = '/static/img/Tree1.png';
+                            this.soils.push(tree1);
+
+                            // Switch tree1 to tree2 after a delay
+                            setTimeout(() => {
+                                tree1.active = false;
+                                const tree2 = {
+                                    x: soil.x,
+                                    y: soil.y,
+                                    width: 75,
+                                    height: 75,
+                                    active: true,
+                                    image: new Image()
+                                };
+                                tree2.image.src = '/static/img/Tree2.png';
+                                this.soils.push(tree2);
+
+                                // Switch tree2 to tree3 after a delay
+                                setTimeout(() => {
+                                    tree2.active = false;
+                                    const tree3 = {
+                                        x: soil.x,
+                                        y: soil.y,
+                                        width: 100,
+                                        height: 100,
+                                        active: true,
+                                        image: new Image()
+                                    };
+                                    tree3.image.src = '/static/img/Tree3.png';
+                                    this.soils.push(tree3);
+
+                                    // Remove tree3 after a delay
+                                    setTimeout(() => {
+                                        tree3.active = false;
+                                        this.soils.splice(this.soils.indexOf(tree3), 1);
+                                        this.render();
+                                    }, 2000); // Display tree3 for 2 seconds
+                                }, 2000); // Switch from tree2 to tree3 after 2 seconds
+                            }, 2000); // Switch from tree1 to tree2 after 2 seconds
+                        }
+                    }
+                });
+
+                // Check for collisions with machines
+                this.machines.forEach(machine => {
+                    if (
+                        this.player.x < machine.x + machine.width &&
+                        this.player.x + this.player.width > machine.x &&
+                        this.player.y < machine.y + machine.height &&
+                        this.player.y + this.player.height > machine.y
+                    ) {
+                        if (!this.scoreLostTimeout) {
+                            this.scoreLostTimeout = true;
+                            setTimeout(() => {
+                                this.scoreLostTimeout = false;
+                            }, 1000); // 1 second interval before score can be lost again
+
+                            if (this.score >= 3) {
+                                this.score -= 3;
+                            } else {
+                                this.score = 0;
+                            }
+                            this.render();
+                        }
+                    }
+                });
+            }
+
+            checkGameover() {
+                if (this.gameOver) return;
+                const currentTime = Date.now();
+                let gameover = false;
+                for (let i = 0; i < this.soils.length; i++) {
+                    const soil = this.soils[i];
+                    if (soil.active && !soil.touched && currentTime - soil.spawnTime >= 5000) {
+                        gameover = true;
+                        break; // Exit the loop once a game over condition is found
+                    }
+                }
+
+                if (gameover && !this.lifeLostTimeout) {
+                    this.reduceLife(); // Call the method to reduce life only if not in the timeout period
+                    this.lifeLostTimeout = true; // Set the timeout flag
+                    setTimeout(() => {
+                        this.lifeLostTimeout = false; // Reset the timeout flag after 0.1 second
+                    }, 100);
+                }
+            }
+
+            reduceLife() {
+                if (this.lives > 0) {
+                    this.lives--;
+                    this.updateLifeDisplay();
+                }
+                if (this.lives <= 0) {
+                    this.endGame();
+                }
+            }
+
+            updateLifeDisplay() {
+                const lifeIconsContainer = document.getElementById('life-icons');
+                lifeIconsContainer.innerHTML = ''; // Clear existing life icons
+                for (let i = 0; i < this.lives; i++) {
+                    const lifeIcon = document.createElement('img');
+                    lifeIcon.src = '/static/img/Player.png'; // Use player image as life icon
+                    lifeIcon.style.width = '20px';
+                    lifeIcon.style.height = '20px';
+                    lifeIconsContainer.appendChild(lifeIcon);
+                }
+            }
+
+            endGame() {
+                this.gameOver = true;
+                // Hide canvas and show game over screen
+                this.canvas.style.display = 'none';
+                document.getElementById('game-over-screen').style.display = 'block';
+                document.getElementById('final-score').innerText = `Final Score: ${this.score}`;
+                this.updateHighScore();
+            }
+
+            updateHighScore() {
+                fetch('/update-highscore', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ score: this.score }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const highScore = data.high_score;
+                        const highScoreElement = document.getElementById('high-score');
+                        highScoreElement.innerText = `High Score: ${highScore}`;
+                        highScoreElement.style.display = 'block'; // Ensure it's displayed
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            generateSoil() {
+                const randomX = Math.floor(Math.random() * (this.canvas.width - 50));
+                const randomY = Math.floor(Math.random() * (this.canvas.height - 50));
+                const soil = {
+                    x: randomX,
+                    y: randomY,
+                    width: 50,
+                    height: 50,
+                    active: true,
+                    touched: false,
+                    spawnTime: Date.now(), // Record the spawn time of soil
+                    image: new Image(),
+                    timeoutId: null
+                };
+                soil.image.src = '/static/img/Soil.png';
+                soil.timeoutId = setTimeout(() => {
+                    soil.active = false;
+                    this.checkGameover();
+                    this.render();
+                }, 5000); // Soil disappears after 5 seconds
+
+                this.soils.push(soil);
+            }
+
+            updateMachinesPosition() {
+                this.machines.forEach(machine => {
+                    machine.x += machine.speedX;
+                    machine.y += machine.speedY;
+
+                    // Check for collision with canvas edges
+                    if (machine.x <= 0 || machine.x + machine.width >= this.canvas.width) {
+                        machine.speedX *= -1; // Reverse horizontal direction
+                    }
+                    if (machine.y <= 0 || machine.y + machine.height >= this.canvas.height) {
+                        machine.speedY *= -1; // Reverse vertical direction
+                    }
+                });
+            }
+
+            renderMachines() {
+                this.machines.forEach(machine => {
+                    this.ctx.drawImage(this.machineImage, machine.x, machine.y, machine.width, machine.height);
+                });
+            }
+
+            gameLoop() {
+                // Generate soil patches every 2 seconds
+                setInterval(() => {
+                    if (!this.gameOver) {
+                        this.generateSoil();
+                    }
+                }, 2000);
+
+                // Update deforestation machine positions
+                setInterval(() => {
+                    if (!this.gameOver) {
+                        this.updateMachinesPosition();
+                    }
+                }, 50);
+
+                // Check for game over condition continuously
+                setInterval(() => {
+                    this.checkGameover();
+                }, 1);
+
+                // Render the game continuously
+                setInterval(() => {
+                    this.render();
+                }, 1);
+            }
+        }
+
+        const gameContainer = document.getElementById('game-container');
+        const menuScreen = document.getElementById('menu-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const gameOverMessage = document.getElementById('game-over');
+        const scoreDisplay = document.getElementById('score');
+
+        let gameStarted = false;
+
+        function startGame() {
+            if (!gameStarted) {
+                gameStarted = true;
+                menuScreen.style.display = 'none';
+                gameOverScreen.style.display = 'none';
+                gameContainer.style.display = 'block';
+                const game = new BasicGame();
+                game.init();
+            }
+        }
+
+        // Listen for space bar keydown event to start the game
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                startGame();
+            }
+        });
+    </script>
+{% endblock %}

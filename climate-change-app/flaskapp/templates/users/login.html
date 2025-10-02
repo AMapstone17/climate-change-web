@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    {% if loginForm %}
+        <div class="FormBox">
+            <h3 class="loginTitle">Account Login</h3>
+            <div>
+                <form method="POST">
+                    <div class="input-field">
+                        {{ loginForm.csrf_token }}
+                        {{ loginForm.username(class="input", placeholder="Username") }}
+                        <div class="error-msg">
+                            {% for error in loginForm.username.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        {{ loginForm.password(class="input", placeholder="Password") }}
+                        <div class="error-msg">
+                            {% for error in loginForm.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        {{ loginForm.pin(class="input", placeholder="Pin") }}
+                        <div class="error-msg">
+                            {% for error in loginForm.pin.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="loginRecaptcha">
+                        {{ loginForm.recaptcha }}
+                    </div>
+                    <div class="loginButton">
+                        {{ loginForm.submit(class="button") }}
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
