@@ -1,6 +1,3 @@
-"""
-Author: Tom
-"""
 
 import os
 import subprocess
