@@ -147,7 +147,7 @@ celerybeat.pid
 .env
 .venv
 env/
-climate-change-app/venv/
+climate-change-web/venv/
 ENV/
 env.bak/
 venv.bak/
