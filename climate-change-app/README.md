@@ -8,7 +8,7 @@ First, clone the repository. And optionally, switch to the `release` branch. The
 ease of development. However, both branches are up-to-date with each other as of the submission date.
 
 ```bash
-git clone https://github.com/newcastleuniversity-computing/CSC2033_Team33_23-24.git
+git clone https://github.com/AMapstone17/climate-change-web.git
 git checkout release
 ```
 
