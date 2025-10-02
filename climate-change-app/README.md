@@ -39,7 +39,7 @@ Testing documentation, including an overview of the testing strategy, can be fou
 The project is structured as follows:
 
 ```plaintext
-CSC2033_Team33_23-24/
+climate-change-web/
 ├── flaskapp/
 │   ├── admin/, groups/, home/, quiz/, users/ # views and forms
 │   ├── static, templates # html, css, js
