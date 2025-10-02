@@ -120,7 +120,7 @@ tr:nth-child(odd) {
 }
 
 .add-btn {
-    background-image: url('../../static/add.png');
+    background-image: url('../add.png');
     background-position: left;
     height: 100%;
     background-repeat: no-repeat;
@@ -137,7 +137,7 @@ tr:nth-child(odd) {
 }
 
 .edit-btn {
-    background-image: url('../../static/edit.png');
+    background-image: url('../edit.png');
     background-position: left;
     height: 100%;
     background-repeat: no-repeat;
@@ -154,7 +154,7 @@ tr:nth-child(odd) {
 }
 
 .del-btn {
-    background-image: url('../../static/delete.png');
+    background-image: url('../delete.png');
     background-position: left;
     height: 100%;
     background-repeat: no-repeat;

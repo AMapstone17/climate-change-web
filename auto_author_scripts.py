@@ -8,7 +8,7 @@ import subprocess
 include_extensions = ['py', 'html']
 exclude_patterns = ['auto_author_scripts.py', 'venv\\', '__init__.py', 'reports\\']
 
-project_files = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(".")) for f in fn]
+project_files = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser("climate-change-app")) for f in fn]
 
 project_files = [file for file in project_files if any(file.endswith(ext) for ext in include_extensions)]
 

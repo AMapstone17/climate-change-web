@@ -30,7 +30,7 @@
 }
 
 #new-post-btn {
-    background-image: url('../../static/write.png');
+    background-image: url('../write.png');
     background-position: 2vh;
     background-repeat: no-repeat;
     background-size: 3vh;
@@ -265,7 +265,7 @@ hr {
     width: 6vh;
     border: none;
     outline: none;
-    background-image: url('../../static/edit.png');
+    background-image: url('../edit.png');
     background-position: left;
     background-repeat: no-repeat;
     background-size: 2vh;
@@ -277,7 +277,7 @@ hr {
     width: 8vh;
     border: none;
     outline: none;
-    background-image: url('../../static/delete.png');
+    background-image: url('../delete.png');
     background-position: left;
     background-repeat: no-repeat;
     background-size: 2vh;

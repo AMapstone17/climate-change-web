@@ -11,6 +11,6 @@ RUN pip3 install -r requirements.txt
 
 ENV IS_DOCKER=True
 
-COPY . .
+COPY climate-change-app .
 
 ENTRYPOINT ["python3", "-m", "flask", "--app", "run", "run", "--host=0.0.0.0"]

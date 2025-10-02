@@ -1,12 +1,12 @@
 ### Custom .gitignore entries:
 
 # exclude the .local env files
-.env.local
-.env.docker.local
+../.env.local
+../.env.docker.local
 
 # include the .example env files (! is used to include the file)
-!.env.example
-!.env.docker.example
+!../.env.example
+!../.env.docker.example
 
 # exclude sqlite database files, and any config for the database
 climate.db
@@ -16,7 +16,7 @@ climate.db
 .idea/misc.xml
 
 # testing
-reports/
+../reports/
 .coverage
 .xml
 
@@ -86,7 +86,7 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-instance/
+../instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -147,7 +147,7 @@ celerybeat.pid
 .env
 .venv
 env/
-venv/
+climate-change-app/venv/
 ENV/
 env.bak/
 venv.bak/
